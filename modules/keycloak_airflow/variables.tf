@@ -4,14 +4,8 @@ variable "realm_id" {
 }
 
 variable "resource_server_id" {
-  description = "ID of the Keycloak resource server (OIDC client) Airflow uses."
+  description = "ID (UUID) of the Keycloak OIDC client / resource server Airflow uses."
   type        = string
-}
-
-variable "client_id" {
-  description = "ID of the Keycloak OIDC client used for creating client roles; defaults to resource_server_id."
-  type        = string
-  default     = null
 }
 
 variable "role_prefix" {

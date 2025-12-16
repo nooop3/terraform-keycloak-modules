@@ -34,8 +34,6 @@ resource "keycloak_openid_client_authorization_resource" "menu" {
 }
 
 locals {
-  effective_client_id = coalesce(var.client_id, var.resource_server_id)
-
   scope_ids = {
     for name, scope in keycloak_openid_client_authorization_scope.scopes :
     name => scope.id
@@ -51,7 +49,7 @@ resource "keycloak_role" "client_roles" {
   for_each = local.client_roles
 
   realm_id  = var.realm_id
-  client_id = local.effective_client_id
+  client_id = var.resource_server_id
   name      = each.value
 
   description = "Airflow access tier client role managed by terraform-keycloak-modules."
