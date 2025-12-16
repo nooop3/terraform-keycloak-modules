@@ -52,7 +52,7 @@ resource "keycloak_role" "client_roles" {
   client_id = var.resource_server_id
   name      = each.value
 
-  description = "Airflow access tier client role managed by terraform-keycloak-modules."
+  description = "Airflow access tier client role managed by terraform-keycloak-authz."
 }
 
 resource "keycloak_openid_client_role_policy" "tiers" {

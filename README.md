@@ -1,4 +1,4 @@
-# terraform-keycloak-modules
+# terraform-keycloak-authz
 
 Terraform modules for managing Keycloak configuration.
 
@@ -10,7 +10,8 @@ Creates scopes (`GET`, `POST`, `PUT`, `DELETE`, `MENU`, `LIST`), resources/menu 
 
 ```hcl
 module "keycloak_airflow" {
-  source = "github.com/nooop3/terraform-keycloak-modules//modules/keycloak-airflow"
+  source = "nooop3/authz/keycloak//modules/keycloak-airflow"
+  version = "0.0.4"
 
   realm_id           = data.keycloak_realm.target.id
   resource_server_id = keycloak_openid_client.airflow.resource_server_id

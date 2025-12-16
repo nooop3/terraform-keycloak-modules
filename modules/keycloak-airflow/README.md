@@ -6,7 +6,8 @@ Creates Keycloak Authorization scopes/resources and `ReadOnly`/`Admin`/`User`/`O
 
 ```hcl
 module "keycloak_airflow" {
-  source = "github.com/nooop3/terraform-keycloak-modules//modules/keycloak-airflow"
+  source = "nooop3/authz/keycloak//modules/keycloak-airflow"
+  version = "0.0.4"
 
   realm_id           = data.keycloak_realm.target.id
   resource_server_id = keycloak_openid_client.airflow.resource_server_id
