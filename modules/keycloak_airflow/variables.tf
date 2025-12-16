@@ -14,14 +14,8 @@ variable "client_id" {
   default     = null
 }
 
-variable "default_policy_name" {
-  description = "Authorization policy attached to the Airflow client; defaults to the Keycloak generated one."
-  type        = string
-  default     = "Default Policy"
-}
-
 variable "role_prefix" {
-  description = "Prefix for created realm roles (e.g. airflow -> airflow-readonly)."
+  description = "Prefix for created client roles (e.g. airflow -> airflow-readonly)."
   type        = string
   default     = "airflow"
 }

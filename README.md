@@ -22,4 +22,6 @@ module "keycloak_airflow" {
 }
 ```
 
-Outputs expose the scope/resource/permission IDs for wiring other stacks.
+Authorization permissions are wired to role policies for those client roles; grant access by assigning the client role to users (Keycloak Admin UI: `Users` → user → `Role mapping` → `Client Roles` → select the Airflow client).
+
+Outputs expose IDs for wiring other stacks.

@@ -33,12 +33,6 @@ resource "keycloak_openid_client_authorization_resource" "menu" {
   ]
 }
 
-data "keycloak_openid_client_authorization_policy" "default" {
-  realm_id           = var.realm_id
-  resource_server_id = var.resource_server_id
-  name               = var.default_policy_name
-}
-
 locals {
   effective_client_id = coalesce(var.client_id, var.resource_server_id)
 
@@ -53,6 +47,33 @@ locals {
   }
 }
 
+resource "keycloak_role" "client_roles" {
+  for_each = local.client_roles
+
+  realm_id  = var.realm_id
+  client_id = local.effective_client_id
+  name      = each.value
+
+  description = "Airflow access tier client role managed by terraform-keycloak-modules."
+}
+
+resource "keycloak_openid_client_role_policy" "tiers" {
+  for_each = local.client_roles
+
+  realm_id           = var.realm_id
+  resource_server_id = var.resource_server_id
+  name               = "${each.value}-policy"
+  description        = "Grants access when user has client role '${each.value}'."
+  decision_strategy  = "UNANIMOUS"
+  logic              = "POSITIVE"
+  type               = "role"
+
+  role {
+    id       = keycloak_role.client_roles[each.key].id
+    required = true
+  }
+}
+
 resource "keycloak_openid_client_authorization_permission" "read_only" {
   realm_id           = var.realm_id
   resource_server_id = var.resource_server_id
@@ -60,7 +81,7 @@ resource "keycloak_openid_client_authorization_permission" "read_only" {
   decision_strategy  = "UNANIMOUS"
   type               = "scope"
 
-  policies = [data.keycloak_openid_client_authorization_policy.default.id]
+  policies = [keycloak_openid_client_role_policy.tiers["readonly"].id]
 
   scopes = [
     local.scope_ids["GET"],
@@ -76,7 +97,7 @@ resource "keycloak_openid_client_authorization_permission" "admin" {
   decision_strategy  = "UNANIMOUS"
   type               = "scope"
 
-  policies = [data.keycloak_openid_client_authorization_policy.default.id]
+  policies = [keycloak_openid_client_role_policy.tiers["admin"].id]
 
   scopes = [
     local.scope_ids["GET"],
@@ -95,7 +116,7 @@ resource "keycloak_openid_client_authorization_permission" "user" {
   decision_strategy  = "UNANIMOUS"
   type               = "resource"
 
-  policies = [data.keycloak_openid_client_authorization_policy.default.id]
+  policies = [keycloak_openid_client_role_policy.tiers["user"].id]
 
   resources = [
     local.resource_ids["Dag"],
@@ -110,7 +131,7 @@ resource "keycloak_openid_client_authorization_permission" "op" {
   decision_strategy  = "UNANIMOUS"
   type               = "resource"
 
-  policies = [data.keycloak_openid_client_authorization_policy.default.id]
+  policies = [keycloak_openid_client_role_policy.tiers["op"].id]
 
   resources = [
     local.resource_ids["Connection"],
@@ -118,14 +139,4 @@ resource "keycloak_openid_client_authorization_permission" "op" {
     local.resource_ids["Variable"],
     local.resource_ids["Backfill"],
   ]
-}
-
-resource "keycloak_role" "client_roles" {
-  for_each = local.client_roles
-
-  realm_id  = var.realm_id
-  client_id = local.effective_client_id
-  name      = each.value
-
-  description = "Airflow access tier client role managed by terraform-keycloak-modules."
 }

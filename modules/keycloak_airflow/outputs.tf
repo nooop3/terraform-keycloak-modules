@@ -39,3 +39,11 @@ output "client_role_ids" {
     name => role.id
   }
 }
+
+output "role_policy_ids" {
+  description = "Authorization role policy IDs keyed by tier (readonly/admin/user/op)."
+  value = {
+    for name, policy in keycloak_openid_client_role_policy.tiers :
+    name => policy.id
+  }
+}
