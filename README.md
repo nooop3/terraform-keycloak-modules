@@ -14,7 +14,11 @@ module "keycloak_airflow" {
 
   realm_id           = data.keycloak_realm.target.id
   resource_server_id = keycloak_openid_client.airflow.resource_server_id
-  # default_policy_name = "Default Policy"
+  # Optional: override client UUID for client role creation.
+  # client_id = keycloak_openid_client.airflow.id
+
+  # Creates client roles like airflow-readonly/admin/user/op.
+  # role_prefix = "airflow"
 }
 ```
 

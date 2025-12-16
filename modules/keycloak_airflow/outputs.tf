@@ -31,3 +31,11 @@ output "permission_ids" {
     Op       = keycloak_openid_client_authorization_permission.op.id
   }
 }
+
+output "client_role_ids" {
+  description = "Client role IDs keyed by tier (readonly/admin/user/op)."
+  value = {
+    for name, role in keycloak_role.client_roles :
+    name => role.id
+  }
+}

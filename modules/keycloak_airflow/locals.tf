@@ -52,4 +52,11 @@ locals {
     "Variables",
     "XComs",
   ]
+
+  client_roles = {
+    readonly = "${var.role_prefix}-readonly"
+    admin    = "${var.role_prefix}-admin"
+    user     = "${var.role_prefix}-user"
+    op       = "${var.role_prefix}-op"
+  }
 }
