@@ -1,4 +1,4 @@
-# keycloak_airflow
+# keycloak-airflow
 
 Creates Keycloak Authorization scopes/resources and `ReadOnly`/`Admin`/`User`/`Op` permissions for an Airflow OIDC client (resource server). Also creates matching client roles `${role_prefix}-{readonly,admin,user,op}` and role policies wired to those permissions.
 
@@ -6,7 +6,7 @@ Creates Keycloak Authorization scopes/resources and `ReadOnly`/`Admin`/`User`/`O
 
 ```hcl
 module "keycloak_airflow" {
-  source = "github.com/nooop3/terraform-keycloak-modules//modules/keycloak_airflow"
+  source = "github.com/nooop3/terraform-keycloak-modules//modules/keycloak-airflow"
 
   realm_id           = data.keycloak_realm.target.id
   resource_server_id = keycloak_openid_client.airflow.resource_server_id
