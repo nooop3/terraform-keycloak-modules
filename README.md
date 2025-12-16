@@ -1,6 +1,6 @@
 # terraform-keycloak-modules
 
-Terraform modules for managing Keycloak configuration. Airflow integration lives in a submodule.
+Terraform modules for managing Keycloak configuration.
 
 ## Modules
 

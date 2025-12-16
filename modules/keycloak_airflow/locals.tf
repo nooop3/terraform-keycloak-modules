@@ -1,4 +1,5 @@
 locals {
+  # https://github.com/apache/airflow/blob/main/providers/keycloak/src/airflow/providers/keycloak/auth_manager/cli/commands.py#L123
   scope_names = [
     "GET",
     "POST",
@@ -8,6 +9,7 @@ locals {
     "LIST",
   ]
 
+  # https://github.com/apache/airflow/blob/main/airflow-core/src/airflow/api_fastapi/auth/managers/base_auth_manager.py#L76
   standard_scope_names = [
     "GET",
     "POST",
@@ -20,6 +22,7 @@ locals {
     "MENU",
   ]
 
+  # https://github.com/apache/airflow/blob/main/providers/keycloak/src/airflow/providers/keycloak/auth_manager/resources.py#L22
   keycloak_resources = [
     "Asset",
     "AssetAlias",
@@ -34,6 +37,7 @@ locals {
     "View",
   ]
 
+  # https://github.com/apache/airflow/blob/bef558dfb20104683fc76f86ba78c7851c405947/airflow-core/src/airflow/api_fastapi/common/types.py#L92
   menu_items = [
     "Required Actions",
     "Assets",
