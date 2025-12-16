@@ -1,14 +1,16 @@
-# terraform-airflow-modules
+# terraform-keycloak-modules
 
-Terraform bits for Airflow. Right now it only syncs the Keycloak Authorization objects the Airflow Keycloak auth manager expects.
+Terraform modules for managing Keycloak configuration. Airflow integration lives in a submodule.
 
-## airflow_keycloak
+## Modules
 
-Creates scopes (`GET`, `POST`, `PUT`, `DELETE`, `MENU`, `LIST`), the Keycloak resources/menu items tied to those scopes, plus the `ReadOnly`, `Admin`, `User`, and `Op` permissions.
+### keycloak_airflow
+
+Creates scopes (`GET`, `POST`, `PUT`, `DELETE`, `MENU`, `LIST`), resources/menu items, and the `ReadOnly`, `Admin`, `User`, and `Op` permissions expected by Airflow's Keycloak auth manager.
 
 ```hcl
-module "airflow_keycloak" {
-  source = "github.com/nooop3/terraform-airflow-modules//modules/airflow_keycloak"
+module "keycloak_airflow" {
+  source = "github.com/nooop3/terraform-keycloak-modules//modules/keycloak_airflow"
 
   realm_id           = data.keycloak_realm.target.id
   resource_server_id = keycloak_openid_client.airflow.resource_server_id
